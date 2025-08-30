@@ -22,7 +22,7 @@ It allows detection of safety equipment such as **helmets, vests, boots, gloves,
 - **Parameters**: ~11.1M
 - **GFLOPs**: 28.4
 
-### 📊 Validation Metrics (Train Split)
+### 📊 Validation Metrics 
 - **mAP@50**: 0.922  
 - **mAP@50-95**: 0.773  
 - **Precision**: 0.965  
@@ -35,7 +35,7 @@ It allows detection of safety equipment such as **helmets, vests, boots, gloves,
 - Human: mAP@50 = 0.967, mAP@50-95 = 0.884  
 - Vest: mAP@50 = 0.973, mAP@50-95 = 0.857  
 
-### 📊 Test Metrics (Unseen Data)
+### 📊 Test Metrics 
 - **mAP@50**: 0.977  
 - **mAP@50-95**: 0.816  
 - **Precision**: 0.956  
@@ -103,14 +103,5 @@ PPE-Detection/
 
 ---
 
-## 📢 Future Improvements
-- Increase glove dataset size for better accuracy.  
-- Deploy model on **edge devices** (Jetson Nano, Raspberry Pi).  
-- Add **multi-camera support**.  
-- Integrate with **alert systems** for safety monitoring.  
-
----
-
 ## 🧑‍💻 Author
-Developed by **[Your Name]** 🚀  
-For research, learning, and industrial safety monitoring applications.
+Developed by **Pardhesh M** 🚀  
