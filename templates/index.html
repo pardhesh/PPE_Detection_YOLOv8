@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PPE Detection App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Enhanced Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="/">
+        <i class="fas fa-hard-hat me-2"></i>
+        PPE Detection
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="/"><i class="fas fa-home me-1"></i>Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/webcam"><i class="fas fa-video me-1"></i>Webcam</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center py-5" style="padding-top: 100px !important;">
+    <div class="row justify-content-center w-100">
+      <div class="col-lg-8 col-xl-6">
+        
+        <!-- Header Section -->
+        <div class="text-center mb-5 fade-in">
+          <h1 class="page-title mb-3">Detect PPE from Image, Video, or Webcam</h1>
+          <p class="subtitle mb-4">Advanced AI-powered Personal Protective Equipment detection for workplace safety</p>
+          
+          <!-- Feature Icons -->
+          <div class="row g-4 mb-5">
+            <div class="col-md-4">
+              <div class="text-center">
+                <i class="fas fa-image feature-icon"></i>
+                <h5 class="fw-semibold">Image Detection</h5>
+                <p class="text-muted small">Upload photos for instant PPE analysis</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="text-center">
+                <i class="fas fa-video feature-icon"></i>
+                <h5 class="fw-semibold">Video Processing</h5>
+                <p class="text-muted small">Process video files with frame-by-frame analysis</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="text-center">
+                <i class="fas fa-camera feature-icon"></i>
+                <h5 class="fw-semibold">Real-time Webcam</h5>
+                <p class="text-muted small">Live detection using your webcam</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Card -->
+        <div class="main-container p-5 slide-up">
+          <div class="upload-card border-2 border-dashed rounded-4 p-4 mb-4" id="uploadArea">
+            <div class="text-center">
+              <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+              <h4 class="fw-semibold mb-2">Upload Your File</h4>
+              <p class="text-muted mb-3">Drag and drop your image or video file here, or click to browse</p>
+              
+              <!-- Upload Form -->
+              <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
+                <div class="mb-4">
+                  <input class="form-control form-control-lg" type="file" name="file" id="fileInput" 
+                         accept="image/*,video/*" required>
+                </div>
+                <p class="text-muted mb-3 file-name-display"></p>
+                <button class="btn btn-primary btn-lg w-100 mb-3" type="submit" id="uploadBtn">
+                  <i class="fas fa-search me-2"></i>Upload & Detect PPE
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="row g-3">
+            <div class="col-md-6">
+              <a href="/webcam" class="btn btn-success btn-lg w-100 h-100 d-flex align-items-center justify-content-center">
+                <i class="fas fa-video me-2"></i>Start Webcam Detection
+              </a>
+            </div>
+            <div class="col-md-6">
+              <button class="btn btn-outline-secondary btn-lg w-100 h-100" onclick="showInfo()">
+                <i class="fas fa-info-circle me-2"></i>How It Works
+              </button>
+            </div>
+          </div>
+
+          <!-- Supported Formats -->
+          <div class="mt-4 text-center">
+            <p class="text-muted small mb-0">
+              <i class="fas fa-check-circle text-success me-1"></i>
+              Supported formats: JPG, PNG, MP4, AVI, MOV
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Enhanced Footer -->
+  <footer class="footer text-center text-white py-4 mt-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <p class="mb-0">
+            <i class="fas fa-shield-alt me-2"></i>
+            Ensuring workplace safety through AI-powered PPE detection
+          </p>
+        </div>
+        <div class="col-md-6">
+          <p class="mb-0">
+            <small>© 2025 PPE Detection App | Built with ❤️ for safety</small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Info Modal -->
+  <div class="modal fade" id="infoModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fas fa-info-circle me-2"></i>How PPE Detection Works
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                  <i class="fas fa-brain fa-2x text-primary mb-3"></i>
+                  <h6 class="fw-semibold">AI-Powered Detection</h6>
+                  <p class="small text-muted">Our advanced YOLO model identifies safety equipment with high accuracy</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                  <i class="fas fa-bolt fa-2x text-warning mb-3"></i>
+                  <h6 class="fw-semibold">Real-time Processing</h6>
+                  <p class="small text-muted">Instant results for images and fast video processing</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                  <i class="fas fa-mobile-alt fa-2x text-success mb-3"></i>
+                  <h6 class="fw-semibold">Responsive Design</h6>
+                  <p class="small text-muted">Works seamlessly on desktop, tablet, and mobile devices</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                  <i class="fas fa-download fa-2x text-info mb-3"></i>
+                  <h6 class="fw-semibold">Easy Download</h6>
+                  <p class="small text-muted">Download results with detection overlays for reporting</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Modal -->
+  <div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-body text-center py-4">
+          <div class="loading-spinner mx-auto mb-3"></div>
+          <h6 class="fw-semibold">Processing Your File...</h6>
+          <p class="text-muted small mb-0">Please wait while we analyze your content</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const uploadForm = document.getElementById('uploadForm');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+
+    // Drag-and-drop events
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        fileInput.files = files;
+        fileInput.dispatchEvent(new Event('change'));
+      }
+    });
+
+    // Show selected file name without breaking the submit button
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const fileNameDisplay = uploadArea.querySelector('.file-name-display');
+        fileNameDisplay.textContent = `Selected File: ${file.name}`;
+      }
+    });
+
+    // Form submission
+    uploadForm.addEventListener('submit', () => {
+      loadingModal.show();
+    });
+
+    // Info modal
+    function showInfo() {
+      const infoModal = new bootstrap.Modal(document.getElementById('infoModal'));
+      infoModal.show();
+    }
+
+    // Add animation classes on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.fade-in').forEach((el, index) => {
+        el.style.animationDelay = `${index * 0.1}s`;
+      });
+    });
+  </script>
+</body>
+</html>
